@@ -1,0 +1,128 @@
+<div class="page-header">
+  <h2>Mes réparations</h2>
+  <p>Mettre à jour les diagnostics, travaux effectués et statuts.</p>
+</div>
+
+<div *ngIf="success" class="alert alert-success">{{ success }}</div>
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+<div class="grid">
+  <section class="panel">
+    <h3>Détails réparation</h3>
+
+    <div *ngIf="!selectedRepair" class="empty-box">
+      Sélectionnez une réparation dans la liste.
+    </div>
+
+    <form *ngIf="selectedRepair" (ngSubmit)="saveRepair()">
+      <div class="repair-summary">
+        <strong>
+          {{ selectedRepair.vehicle?.brand }}
+          {{ selectedRepair.vehicle?.model }}
+        </strong>
+        <span>{{ selectedRepair.client?.fullName }}</span>
+      </div>
+
+      <div class="mb-3">
+        <label>Diagnostic</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          [(ngModel)]="form.diagnosis"
+          name="diagnosis"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label>Travail effectué</label>
+        <textarea
+          class="form-control"
+          rows="4"
+          [(ngModel)]="form.workDescription"
+          name="workDescription"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label>Pièces utilisées</label>
+        <textarea
+          class="form-control"
+          rows="2"
+          [(ngModel)]="form.partsUsed"
+          name="partsUsed"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label>Statut</label>
+        <select class="form-select" [(ngModel)]="form.status" name="status">
+          <option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary w-100">
+        Enregistrer
+      </button>
+
+      <button type="button" class="btn btn-outline-secondary w-100 mt-2" (click)="cancelEdit()">
+        Annuler
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h3>Réparations assignées</h3>
+
+    <div *ngIf="loading">Chargement...</div>
+
+    <table class="table align-middle" *ngIf="!loading && repairs.length > 0">
+      <thead>
+      <tr>
+        <th>Client</th>
+        <th>Véhicule</th>
+        <th>Diagnostic</th>
+        <th>Statut</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let repair of repairs">
+        <td>{{ repair.client?.fullName }}</td>
+
+        <td>
+          {{ repair.vehicle?.brand }}
+          {{ repair.vehicle?.model }}
+        </td>
+
+        <td>{{ repair.diagnosis || 'Non renseigné' }}</td>
+
+        <td>
+          <select
+            class="form-select form-select-sm"
+            [ngModel]="repair.status"
+            (ngModelChange)="changeStatus(repair, $event)"
+            name="status-{{ repair.id }}"
+          >
+            <option *ngFor="let status of statuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </td>
+
+        <td>
+          <button class="btn btn-sm btn-outline-primary" (click)="selectRepair(repair)">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!loading && repairs.length === 0">
+      Aucune réparation assignée.
+    </p>
+  </section>
+</div>

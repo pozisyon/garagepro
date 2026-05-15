@@ -1,0 +1,80 @@
+<!--<div *ngIf="loading" class="loading-box">
+  Chargement du tableau de bord...
+</div>
+
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>-->
+
+<div *ngIf="loading">
+  <div class="dashboard-grid">
+    <div class="stat-card">
+      <i class="bi bi-calendar-check"></i>
+      <div>
+        <span>Rendez-vous</span>
+        <strong>{{ stats.appointments }}</strong>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <i class="bi bi-car-front"></i>
+      <div>
+        <span>Véhicules</span>
+        <strong>{{ stats.vehicles }}</strong>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <i class="bi bi-wrench-adjustable"></i>
+      <div>
+        <span>Réparations</span>
+        <strong>{{ stats.repairs }}</strong>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <i class="bi bi-cash-stack"></i>
+      <div>
+        <span>Revenus</span>
+        <strong>{{ stats.revenue | number:'1.2-2' }} $</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel mt-4">
+    <h3>Rendez-vous récents</h3>
+
+    <table class="table" *ngIf="recentAppointments.length > 0">
+      <thead>
+      <tr>
+        <th>Client</th>
+        <th>Véhicule</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Statut</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let appointment of recentAppointments">
+        <td>{{ appointment.client?.fullName || 'N/A' }}</td>
+        <td>
+          {{ appointment.vehicle?.brand }}
+          {{ appointment.vehicle?.model }}
+        </td>
+        <td>{{ appointment.serviceType }}</td>
+        <td>{{ appointment.appointmentDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+            <span class="badge bg-secondary">
+              {{ appointment.status }}
+            </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="recentAppointments.length === 0">
+      Aucun rendez-vous disponible.
+    </p>
+  </div>
+</div>

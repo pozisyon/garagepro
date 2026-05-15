@@ -1,0 +1,47 @@
+.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 24px 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 36px;
+
+  i {
+    color: #f97316;
+  }
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 12px 14px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+
+    &:hover,
+    &.active {
+      background: #1e293b;
+      color: #ffffff;
+    }
+
+    i {
+      font-size: 18px;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<aside class="sidebar">
+  <div class="brand">
+    <i class="bi bi-tools"></i>
+    <span>GaragePro</span>
+  </div>
+
+  <nav>
+    <ng-container *ngIf="role === 'ADMIN'">
+      <a routerLink="/admin/dashboard" routerLinkActive="active">
+        <i class="bi bi-grid"></i> Dashboard
+      </a>
+
+      <a routerLink="/admin/appointments" routerLinkActive="active">
+        <i class="bi bi-calendar-check"></i> Rendez-vous
+      </a>
+
+      <a routerLink="/admin/vehicles" routerLinkActive="active">
+        <i class="bi bi-car-front"></i> Véhicules
+      </a>
+
+      <a routerLink="/admin/repairs" routerLinkActive="active">
+        <i class="bi bi-wrench-adjustable"></i> Réparations
+      </a>
+
+      <a routerLink="/admin/invoices" routerLinkActive="active">
+        <i class="bi bi-receipt"></i> Factures
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="role === 'CLIENT'">
+      <a routerLink="/client/dashboard" routerLinkActive="active">
+        <i class="bi bi-grid"></i> Dashboard
+      </a>
+
+      <a routerLink="/client/vehicles" routerLinkActive="active">
+        <i class="bi bi-car-front"></i> Mes véhicules
+      </a>
+
+      <a routerLink="/client/appointments" routerLinkActive="active">
+        <i class="bi bi-calendar-plus"></i> Rendez-vous
+      </a>
+
+      <a routerLink="/client/invoices" routerLinkActive="active">
+        <i class="bi bi-receipt"></i> Factures
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="role === 'MECHANIC'">
+      <a routerLink="/mechanic/dashboard" routerLinkActive="active">
+        <i class="bi bi-grid"></i> Dashboard
+      </a>
+
+      <a routerLink="/mechanic/repairs" routerLinkActive="active">
+        <i class="bi bi-wrench-adjustable"></i> Réparations
+      </a>
+    </ng-container>
+  </nav>
+</aside>

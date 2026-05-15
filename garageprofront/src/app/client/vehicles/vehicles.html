@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h2>Mes véhicules</h2>
+  <p>Liste des véhicules associés à votre compte.</p>
+</div>
+
+<section class="panel">
+  <div *ngIf="loading">Chargement...</div>
+
+  <table class="table" *ngIf="!loading && vehicles.length > 0">
+    <thead>
+    <tr>
+      <th>Marque</th>
+      <th>Modèle</th>
+      <th>Année</th>
+      <th>Plaque</th>
+      <th>Kilométrage</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let vehicle of vehicles">
+      <td>{{ vehicle.brand }}</td>
+      <td>{{ vehicle.model }}</td>
+      <!--<td>{{ vehicle.year }}</td>-->
+      <td>{{ vehicle.plateNumber }}</td>
+     <!-- <td>{{ vehicle.mileage }} km</td>-->
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && vehicles.length === 0">
+    Aucun véhicule associé.
+  </p>
+</section>

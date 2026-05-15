@@ -1,0 +1,116 @@
+<div class="page-header">
+  <div>
+    <h2>Gestion des véhicules</h2>
+    <p>Ajouter, modifier et associer les véhicules aux clients.</p>
+  </div>
+</div>
+
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+<div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+<div class="grid">
+  <section class="panel">
+    <h3>{{ editingId ? 'Modifier véhicule' : 'Nouveau véhicule' }}</h3>
+
+    <form (ngSubmit)="saveVehicle()">
+      <div class="mb-3">
+        <label>Client propriétaire</label>
+        <select
+          class="form-select"
+          [(ngModel)]="selectedOwnerId"
+          name="owner"
+          [disabled]="!!editingId"
+        >
+          <option [ngValue]="null">Sélectionner un client</option>
+
+          <option *ngFor="let client of clients" [ngValue]="client.id">
+            {{ client.fullName }} - {{ client.email }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Marque</label>
+        <input class="form-control" [(ngModel)]="form.brand" name="brand" required />
+      </div>
+
+      <div class="mb-3">
+        <label>Modèle</label>
+        <input class="form-control" [(ngModel)]="form.model" name="model" required />
+      </div>
+
+      <div class="mb-3">
+        <label>Année</label>
+        <input type="number" class="form-control" [(ngModel)]="form.year" name="year" />
+      </div>
+
+      <div class="mb-3">
+        <label>Plaque</label>
+        <input class="form-control" [(ngModel)]="form.plateNumber" name="plateNumber" required />
+      </div>
+
+      <div class="mb-3">
+        <label>Kilométrage</label>
+        <input type="number" class="form-control" [(ngModel)]="form.mileage" name="mileage" />
+      </div>
+
+      <button class="btn btn-primary w-100">
+        {{ editingId ? 'Enregistrer' : 'Ajouter' }}
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary w-100 mt-2"
+        *ngIf="editingId"
+        (click)="resetForm()"
+      >
+        Annuler
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h3>Liste des véhicules</h3>
+
+    <div *ngIf="loading">Chargement...</div>
+
+    <table class="table align-middle" *ngIf="!loading && vehicles.length > 0">
+      <thead>
+      <tr>
+        <th>Véhicule</th>
+        <th>Plaque</th>
+        <th>Kilométrage</th>
+        <th>Client</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let vehicle of vehicles">
+        <td>
+          <strong>{{ vehicle.brand }} {{ vehicle.model }}</strong><br />
+       <!--   <small>{{ vehicle.year }}</small>-->
+        </td>
+
+        <td>{{ vehicle.plateNumber }}</td>
+      <!--  <td>{{ vehicle.mileage }} km</td>-->
+        <td>{{ vehicle.owner?.fullName || 'N/A' }}</td>
+
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="editVehicle(vehicle)">
+            <i class="bi bi-pencil"></i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!loading && vehicles.length === 0">
+      Aucun véhicule enregistré.
+    </p>
+  </section>
+</div>

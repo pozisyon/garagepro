@@ -1,0 +1,40 @@
+<div class="page-header">
+  <!--<h2>Bienvenue, {{ currentUser?.fullName }}</h2>-->
+  <p>Suivez vos véhicules, rendez-vous et factures.</p>
+</div>
+
+<div *ngIf="loading">Chargement...</div>
+
+<div class="dashboard-grid" *ngIf="!loading">
+  <div class="stat-card">
+    <i class="bi bi-car-front"></i>
+    <div>
+      <span>Mes véhicules</span>
+      <strong>{{ vehicles.length }}</strong>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <i class="bi bi-calendar-check"></i>
+    <div>
+      <span>Rendez-vous</span>
+      <strong>{{ appointments.length }}</strong>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <i class="bi bi-receipt"></i>
+    <div>
+      <span>Factures</span>
+      <strong>{{ invoices.length }}</strong>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <i class="bi bi-cash-stack"></i>
+    <div>
+      <span>À payer</span>
+      <strong>{{ getUnpaidTotal() | number:'1.2-2' }} $</strong>
+    </div>
+  </div>
+</div>

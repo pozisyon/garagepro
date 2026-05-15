@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h2>Mes factures</h2>
+  <p>Consultez vos factures et leur statut de paiement.</p>
+</div>
+
+<section class="panel">
+  <div *ngIf="loading">Chargement...</div>
+
+  <table class="table" *ngIf="!loading && invoices.length > 0">
+    <thead>
+    <tr>
+      <th>Numéro</th>
+      <th>Réparation</th>
+      <th>Sous-total</th>
+      <th>Taxes</th>
+      <th>Total</th>
+      <th>Statut</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let invoice of invoices">
+      <td>{{ invoice.invoiceNumber }}</td>
+      <td>#{{ invoice.repair?.id }}</td>
+      <td>{{ invoice.subtotal | number:'1.2-2' }} $</td>
+      <td>{{ invoice.taxAmount | number:'1.2-2' }} $</td>
+      <td><strong>{{ invoice.total | number:'1.2-2' }} $</strong></td>
+      <td>
+          <span class="badge"
+                [class.bg-success]="invoice.status === 'PAID'"
+                [class.bg-warning]="invoice.status === 'UNPAID'"
+                [class.bg-secondary]="invoice.status !== 'PAID' && invoice.status !== 'UNPAID'">
+            {{ invoice.status }}
+          </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && invoices.length === 0">
+    Aucune facture disponible.
+  </p>
+</section>

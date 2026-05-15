@@ -1,0 +1,148 @@
+<div class="page-header">
+  <div>
+    <h2>Gestion des rendez-vous</h2>
+    <p>Créer, confirmer et suivre les rendez-vous du garage.</p>
+  </div>
+</div>
+
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+
+<div *ngIf="success" class="alert alert-success">
+  {{ success }}
+</div>
+
+<div class="grid">
+  <section class="panel">
+    <h3>Nouveau rendez-vous</h3>
+
+    <form (ngSubmit)="createAppointment()">
+      <div class="mb-3">
+        <label>Véhicule</label>
+        <select
+          class="form-select"
+          [(ngModel)]="selectedVehicleId"
+          name="vehicle"
+          required
+        >
+          <option [ngValue]="null">Sélectionner un véhicule</option>
+
+          <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle.id">
+            {{ vehicle.brand }} {{ vehicle.model }}
+            - {{ vehicle.plateNumber }}
+            - {{ vehicle.owner?.fullName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Date et heure</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          [(ngModel)]="form.appointmentDate"
+          name="appointmentDate"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label>Service</label>
+        <select
+          class="form-select"
+          [(ngModel)]="form.serviceType"
+          name="serviceType"
+          required
+        >
+          <option value="">Sélectionner</option>
+          <option value="Diagnostic">Diagnostic</option>
+          <option value="Changement d'huile">Changement d'huile</option>
+          <option value="Freins">Freins</option>
+          <option value="Pneus">Pneus</option>
+          <option value="Moteur">Moteur</option>
+          <option value="Transmission">Transmission</option>
+          <option value="Entretien général">Entretien général</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea
+          class="form-control"
+          rows="4"
+          [(ngModel)]="form.description"
+          name="description"
+        ></textarea>
+      </div>
+
+      <button class="btn btn-primary w-100">
+        Créer le rendez-vous
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h3>Liste des rendez-vous</h3>
+
+    <div *ngIf="loading">
+      Chargement...
+    </div>
+
+    <table class="table align-middle" *ngIf="!loading && appointments.length > 0">
+      <thead>
+      <tr>
+        <th>Client</th>
+        <th>Véhicule</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let appointment of appointments">
+        <td>{{ appointment.client?.fullName || 'N/A' }}</td>
+
+        <td>
+          {{ appointment.vehicle?.brand }}
+          {{ appointment.vehicle?.model }}
+        </td>
+
+        <td>{{ appointment.serviceType }}</td>
+
+        <td>
+          {{ appointment.appointmentDate | date:'dd/MM/yyyy HH:mm' }}
+        </td>
+
+        <td>
+          <select
+            class="form-select form-select-sm"
+            [ngModel]="appointment.status"
+            (ngModelChange)="changeStatus(appointment, $event)"
+            name="status-{{ appointment.id }}"
+          >
+            <option *ngFor="let status of statuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </td>
+
+        <td>
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="deleteAppointment(appointment.id)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!loading && appointments.length === 0">
+      Aucun rendez-vous enregistré.
+    </p>
+  </section>
+</div>

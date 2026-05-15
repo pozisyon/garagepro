@@ -1,0 +1,40 @@
+<div class="page-header">
+  <!--<h2>Bienvenue, {{ currentUser?.fullName }}</h2>-->
+  <p>Suivi des réparations qui vous sont assignées.</p>
+</div>
+
+<div *ngIf="loading">Chargement...</div>
+
+<div class="dashboard-grid" *ngIf="!loading">
+  <div class="stat-card">
+    <i class="bi bi-wrench-adjustable"></i>
+    <div>
+      <span>Total réparations</span>
+      <strong>{{ repairs.length }}</strong>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <i class="bi bi-search"></i>
+    <div>
+      <span>Diagnostic</span>
+      <strong>{{ countByStatus('DIAGNOSIS') }}</strong>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <i class="bi bi-gear"></i>
+    <div>
+      <span>En réparation</span>
+      <strong>{{ countByStatus('REPAIRING') }}</strong>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <i class="bi bi-check-circle"></i>
+    <div>
+      <span>Prêtes</span>
+      <strong>{{ countByStatus('READY') }}</strong>
+    </div>
+  </div>
+</div>

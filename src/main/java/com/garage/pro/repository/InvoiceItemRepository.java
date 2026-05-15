@@ -1,0 +1,8 @@
+package com.garage.pro.repository;
+
+
+import com.garage.pro.model.InvoiceItem;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> {
+}

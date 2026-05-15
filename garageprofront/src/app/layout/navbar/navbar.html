@@ -1,0 +1,59 @@
+<header class="navbar-custom">
+  <div>
+    <h2>Tableau de bord</h2>
+    <p>Gestion intelligente du garage</p>
+  </div>
+
+  <div class="right-zone">
+    <div class="notification-wrapper">
+      <button class="notification-btn" (click)="toggleNotifications()">
+        <i class="bi bi-bell"></i>
+        <span *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+      </button>
+
+      <div class="notification-menu" *ngIf="showNotifications">
+        <div class="notification-header">
+          <strong>Notifications</strong>
+
+          <button
+            class="btn btn-sm btn-link"
+            *ngIf="unreadCount > 0"
+            (click)="markAllAsRead()"
+          >
+            Tout lire
+          </button>
+        </div>
+
+        <div *ngIf="notifications.length === 0" class="empty-notification">
+          Aucune notification
+        </div>
+
+        <div
+          class="notification-item"
+          *ngFor="let notification of notifications"
+          [class.unread]="!notification.readStatus"
+          (click)="markAsRead(notification)"
+        >
+          <strong>{{ notification.title }}</strong>
+          <p>{{ notification.message }}</p>
+          <small>{{ notification.createdAt | date:'dd/MM/yyyy HH:mm' }}</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-box">
+      <div class="avatar">
+        {{ fullName?.charAt(0) || 'U' }}
+      </div>
+
+      <div>
+        <strong>{{ fullName }}</strong>
+        <span>{{ role }}</span>
+      </div>
+
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">
+        Déconnexion
+      </button>
+    </div>
+  </div>
+</header>

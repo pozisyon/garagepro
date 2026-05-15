@@ -1,0 +1,161 @@
+<div class="page-header">
+  <div>
+    <h2>Gestion des factures</h2>
+    <p>Créer les factures à partir des réparations et suivre les paiements.</p>
+  </div>
+</div>
+
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+<div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+<div class="grid">
+  <section class="panel">
+    <h3>Nouvelle facture</h3>
+
+    <form (ngSubmit)="createInvoice()">
+      <div class="mb-3">
+        <label>Réparation</label>
+        <select class="form-select" [(ngModel)]="selectedRepairId" name="repair">
+          <option [ngValue]="null">Sélectionner une réparation</option>
+
+          <option *ngFor="let repair of repairs" [ngValue]="repair.id">
+            #{{ repair.id }}
+            -
+            {{ repair.client?.fullName }}
+            -
+            {{ repair.vehicle?.brand }} {{ repair.vehicle?.model }}
+          </option>
+        </select>
+      </div>
+
+      <div class="items-header">
+        <h4>Lignes de facture</h4>
+        <button type="button" class="btn btn-sm btn-outline-primary" (click)="addItem()">
+          <i class="bi bi-plus"></i>
+          Ajouter
+        </button>
+      </div>
+
+      <div class="invoice-item" *ngFor="let item of form.items; let i = index">
+        <div class="mb-2">
+          <label>Description</label>
+          <input
+            class="form-control"
+            [(ngModel)]="item.description"
+            name="description-{{ i }}"
+            required
+          />
+        </div>
+
+        <div class="row">
+          <div class="col-5">
+            <label>Quantité</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="item.quantity"
+              name="quantity-{{ i }}"
+            />
+          </div>
+
+          <div class="col-5">
+            <label>Prix unitaire</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="item.unitPrice"
+              name="unitPrice-{{ i }}"
+            />
+          </div>
+
+          <div class="col-2 d-flex align-items-end">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeItem(i)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="subtotal-box">
+        Sous-total estimé :
+        <strong>{{ getLocalSubtotal() | number:'1.2-2' }} $</strong>
+      </div>
+
+      <button class="btn btn-primary w-100 mt-3">
+        Créer la facture
+      </button>
+
+
+    </form>
+  </section>
+
+  <section class="panel">
+    <h3>Liste des factures</h3>
+
+    <div *ngIf="loading">Chargement...</div>
+
+    <table class="table align-middle" *ngIf="!loading && invoices.length > 0">
+      <thead>
+      <tr>
+        <th>Numéro</th>
+        <th>Client</th>
+        <th>Total</th>
+        <th>Statut</th>
+        <th>Réparation</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let invoice of invoices">
+        <td>
+          <strong>{{ invoice.invoiceNumber }}</strong>
+        </td>
+
+        <td>{{ invoice.client?.fullName || 'N/A' }}</td>
+
+        <td>
+          {{ invoice.total | number:'1.2-2' }} $
+        </td>
+
+        <td>
+          <select
+            class="form-select form-select-sm"
+            [ngModel]="invoice.status"
+            (ngModelChange)="changeStatus(invoice, $event)"
+            name="status-{{ invoice.id }}"
+          >
+            <option *ngFor="let status of statuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </td>
+
+        <td>
+          #{{ invoice.repair?.id || 'N/A' }}
+        </td>
+
+        <td>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteInvoice(invoice.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+          <button
+            class="btn btn-sm btn-outline-dark me-2"
+            (click)="downloadPdf(invoice.id)"
+          >
+            <i class="bi bi-download"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!loading && invoices.length === 0">
+      Aucune facture enregistrée.
+    </p>
+  </section>
+</div>
