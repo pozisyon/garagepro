@@ -23,8 +23,8 @@ export class AdminDashboard implements OnInit {
   };
 
   recentAppointments: any[] = [];
-  dashboardService = inject(DashboardService);
-  //constructor(private dashboardService: DashboardService) {}
+ // dashboardService = inject(DashboardService);
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.loadDashboard();

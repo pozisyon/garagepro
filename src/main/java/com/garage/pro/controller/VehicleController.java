@@ -1,8 +1,10 @@
 package com.garage.pro.controller;
 
+import com.garage.pro.model.User;
 import com.garage.pro.model.Vehicle;
 import com.garage.pro.repository.UserRepository;
 import com.garage.pro.repository.VehicleRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class VehicleController {
         return vehicleRepository.findByOwnerId(ownerId);
     }
 
-    @PostMapping("/owner/{ownerId}")
+   /* @PostMapping("/owner/{ownerId}")
     public Vehicle create(
             @PathVariable Long ownerId,
             @RequestBody Vehicle vehicle
@@ -49,6 +51,20 @@ public class VehicleController {
 
         vehicle.setOwner(owner);
         return vehicleRepository.save(vehicle);
+    }*/
+    @PostMapping("/owner/{ownerId}")
+    public ResponseEntity<Vehicle> create(
+            @PathVariable Long ownerId,
+            @RequestBody Vehicle vehicle
+    ) {
+        vehicle.setId(null); // important
+
+        User owner = userRepository.findById(ownerId)
+                .orElseThrow(() -> new RuntimeException("Client introuvable"));
+
+        vehicle.setOwner(owner);
+
+        return ResponseEntity.ok(vehicleRepository.save(vehicle));
     }
 
     @PutMapping("/{id}")

@@ -1,12 +1,12 @@
-<!--<div *ngIf="loading" class="loading-box">
+<div *ngIf="loading" class="loading-box">
   Chargement du tableau de bord...
 </div>
 
 <div *ngIf="error" class="alert alert-danger">
   {{ error }}
-</div>-->
+</div>
 
-<div *ngIf="loading">
+<div *ngIf="!loading && !error">
   <div class="dashboard-grid">
     <div class="stat-card">
       <i class="bi bi-calendar-check"></i>

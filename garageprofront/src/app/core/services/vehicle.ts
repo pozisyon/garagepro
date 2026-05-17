@@ -36,4 +36,6 @@ export class VehicleService {
   getByOwner(ownerId: number): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(`${this.apiUrl}/owner/${ownerId}`);
   }
+
+
 }
