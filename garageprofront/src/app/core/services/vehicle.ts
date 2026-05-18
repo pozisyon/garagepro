@@ -7,6 +7,7 @@ export interface Vehicle {
   brand: string;
   model: string;
   plateNumber: string;
+  mileage:number;
   owner?: any;
 }
 
