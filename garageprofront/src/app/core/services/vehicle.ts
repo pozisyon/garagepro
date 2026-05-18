@@ -16,8 +16,6 @@ export interface Vehicle {
   providedIn: 'root'
 })
 export class VehicleService {
-
-  private apiUrl = 'http://localhost:8080/api/vehicles';
   private apiUrl = `${environment.apiUrl}/vehicles`;
   constructor(private http: HttpClient) {}
 
