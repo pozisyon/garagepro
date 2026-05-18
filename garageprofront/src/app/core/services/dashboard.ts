@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, map, Observable } from 'rxjs';
+import {environment} from './environnement';
 
 export interface DashboardStats {
   appointments: number;
@@ -15,8 +16,8 @@ export interface DashboardStats {
 })
 export class DashboardService {
 
-  private apiUrl = 'http://localhost:8080/api';
-
+  //private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = `${environment.apiUrl}`;
   constructor(private http: HttpClient) {}
 
   getAdminStats(): Observable<DashboardStats> {

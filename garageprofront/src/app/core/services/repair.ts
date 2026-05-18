@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from './environnement';
 
 export interface Repair {
   id?: number;
@@ -21,8 +22,8 @@ export interface Repair {
 })
 export class RepairService {
 
-  private apiUrl = 'http://localhost:8080/api/repairs';
-
+  //private apiUrl = 'http://localhost:8080/api/repairs';
+  private apiUrl = `${environment.apiUrl}/repairs`;
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Repair[]> {

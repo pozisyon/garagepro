@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from './environnement';
 
 export interface LoginRequest {
   email: string;
@@ -27,7 +28,8 @@ export interface AuthResponse {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api/auth';
+ // private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
   private http = inject(HttpClient);
   //constructor(private http: HttpClient) {}
 
