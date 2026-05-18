@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/invoices")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://garagepro-n4fr.onrender.com")
 public class InvoiceController {
 
     private static final double TAX_RATE = 0.14975;

@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/repairs")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://garagepro-n4fr.onrender.com")
 public class RepairController {
 
     private final RepairRepository repairRepository;

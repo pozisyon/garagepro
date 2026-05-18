@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://garagepro-n4fr.onrender.com")
 public class AppointmentController {
 
     private final AppointmentRepository appointmentRepository;

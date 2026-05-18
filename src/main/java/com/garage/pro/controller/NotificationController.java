@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notifications")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://garagepro-n4fr.onrender.com")
 public class NotificationController {
 
     private final NotificationRepository notificationRepository;

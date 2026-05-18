@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://garagepro-n4fr.onrender.com")
 public class VehicleController {
 
     private final VehicleRepository vehicleRepository;
