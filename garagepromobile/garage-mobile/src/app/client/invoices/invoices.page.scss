@@ -1,0 +1,32 @@
+ion-card {
+  border-radius: 22px;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #475569;
+}
+
+.total {
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.download-btn {
+  margin-top: 18px;
+  --border-radius: 14px;
+  font-weight: 700;
+}
+
+.center {
+  display: block;
+  margin: 40px auto;
+}
+
+.empty {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+}

@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>GaragePro</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="hero">
+    <h1>Bonjour {{ currentUser?.fullName }}</h1>
+    <p>Voici le résumé de votre espace client.</p>
+  </div>
+
+  <ion-spinner *ngIf="loading" class="center"></ion-spinner>
+
+  <div *ngIf="!loading">
+
+    <div class="stats-grid">
+      <ion-card (click)="goToVehicles()">
+        <ion-card-content>
+          <ion-icon name="car-outline"></ion-icon>
+          <strong>{{ vehicles.length }}</strong>
+          <span>Véhicules</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card (click)="goToAppointments()">
+        <ion-card-content>
+          <ion-icon name="calendar-outline"></ion-icon>
+          <strong>{{ appointments.length }}</strong>
+          <span>Rendez-vous</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card (click)="goToInvoices()">
+        <ion-card-content>
+          <ion-icon name="receipt-outline"></ion-icon>
+          <strong>{{ invoices.length }}</strong>
+          <span>Factures</span>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ion-card class="highlight-card">
+      <ion-card-header>
+        <ion-card-title>Prochain rendez-vous</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="nextAppointment">
+        <h2>{{ nextAppointment.serviceType }}</h2>
+        <p>
+          {{ nextAppointment.vehicle?.brand }}
+          {{ nextAppointment.vehicle?.model }}
+        </p>
+        <p>{{ nextAppointment.appointmentDate | date:'dd/MM/yyyy HH:mm' }}</p>
+
+        <ion-badge color="medium">
+          {{ nextAppointment.status }}
+        </ion-badge>
+      </ion-card-content>
+
+      <ion-card-content *ngIf="!nextAppointment">
+        Aucun rendez-vous à venir.
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="payment-card">
+      <ion-card-content>
+        <div>
+          <span>Total impayé</span>
+          <strong>{{ unpaidTotal | number:'1.2-2' }} $</strong>
+        </div>
+
+        <ion-button fill="outline" size="small" (click)="goToInvoices()">
+          Voir factures
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="quick-actions">
+      <ion-button expand="block" (click)="goToAppointments()">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        Demander un rendez-vous
+      </ion-button>
+
+      <ion-button expand="block" fill="outline" (click)="goToVehicles()">
+        <ion-icon name="car-outline" slot="start"></ion-icon>
+        Voir mes véhicules
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rendez-vous</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Demander un rendez-vous</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Véhicule</ion-label>
+        <ion-select [(ngModel)]="selectedVehicleId" placeholder="Sélectionner">
+          <ion-select-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+            {{ vehicle.brand }} {{ vehicle.model }} - {{ vehicle.plateNumber }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Date souhaitée</ion-label>
+        <ion-datetime-button datetime="appointmentDate"></ion-datetime-button>
+      </ion-item>
+
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime
+            id="appointmentDate"
+            presentation="date-time"
+            [(ngModel)]="form.appointmentDate">
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+
+      <ion-item>
+        <ion-label position="stacked">Service</ion-label>
+        <ion-select [(ngModel)]="form.serviceType" placeholder="Sélectionner">
+          <ion-select-option *ngFor="let service of services" [value]="service">
+            {{ service }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea
+          rows="4"
+          [(ngModel)]="form.description">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-button expand="block" class="submit-btn" (click)="createAppointment()">
+        Envoyer
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Historique</ion-card-title>
+    </ion-card-header>
+
+    <ion-list *ngIf="appointments.length > 0">
+      <ion-item *ngFor="let appointment of appointments">
+        <ion-label>
+          <h2>{{ appointment.serviceType }}</h2>
+          <p>
+            {{ appointment.vehicle?.brand }} {{ appointment.vehicle?.model }}
+          </p>
+          <p>{{ appointment.appointmentDate | date:'dd/MM/yyyy HH:mm' }}</p>
+        </ion-label>
+
+        <ion-badge color="medium">
+          {{ appointment.status }}
+        </ion-badge>
+      </ion-item>
+    </ion-list>
+
+    <ion-card-content *ngIf="appointments.length === 0">
+      Aucun rendez-vous.
+    </ion-card-content>
+  </ion-card>
+</ion-content>

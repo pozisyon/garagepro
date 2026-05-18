@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Notifications</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button
+        *ngIf="getUnreadCount() > 0"
+        (click)="markAllAsRead()">
+        Tout lire
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-spinner *ngIf="loading" class="center"></ion-spinner>
+
+  <ion-list *ngIf="!loading && notifications.length > 0">
+    <ion-item
+      *ngFor="let notification of notifications"
+      [class.unread]="!notification.readStatus"
+      (click)="markAsRead(notification)">
+
+      <ion-label>
+        <h2>{{ notification.title }}</h2>
+        <p>{{ notification.message }}</p>
+        <small>
+          {{ notification.createdAt | date:'dd/MM/yyyy HH:mm' }}
+        </small>
+      </ion-label>
+
+      <ion-badge [color]="getColor(notification.type)">
+        {{ notification.type }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-text *ngIf="!loading && notifications.length === 0">
+    <p class="empty">Aucune notification.</p>
+  </ion-text>
+
+</ion-content>

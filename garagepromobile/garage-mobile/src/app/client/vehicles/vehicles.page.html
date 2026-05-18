@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mes véhicules</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="!loading && vehicles.length > 0">
+    <ion-card *ngFor="let vehicle of vehicles">
+      <ion-card-header>
+        <ion-card-title>
+          {{ vehicle.brand }} {{ vehicle.model }}
+        </ion-card-title>
+        <ion-card-subtitle>
+          {{ vehicle.plateNumber }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>Année : {{ vehicle.year }}</p>
+        <p>Kilométrage : {{ vehicle.mileage }} km</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-spinner *ngIf="loading" class="center"></ion-spinner>
+
+  <ion-text *ngIf="!loading && vehicles.length === 0">
+    <p class="empty">Aucun véhicule associé.</p>
+  </ion-text>
+</ion-content>

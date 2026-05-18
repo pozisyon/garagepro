@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mes réparations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-spinner *ngIf="loading" class="center"></ion-spinner>
+
+  <div *ngIf="!loading">
+
+    <ion-card *ngIf="selectedRepair" class="edit-card">
+      <ion-card-header>
+        <ion-card-title>Modifier réparation</ion-card-title>
+        <ion-card-subtitle>
+          {{ selectedRepair.vehicle?.brand }}
+          {{ selectedRepair.vehicle?.model }}
+          -
+          {{ selectedRepair.client?.fullName }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Diagnostic</ion-label>
+          <ion-textarea
+            rows="3"
+            [(ngModel)]="form.diagnosis">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Travail effectué</ion-label>
+          <ion-textarea
+            rows="4"
+            [(ngModel)]="form.workDescription">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Pièces utilisées</ion-label>
+          <ion-textarea
+            rows="2"
+            [(ngModel)]="form.partsUsed">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Main-d’œuvre</ion-label>
+          <ion-input
+            type="number"
+            [(ngModel)]="form.laborCost">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Coût pièces</ion-label>
+          <ion-input
+            type="number"
+            [(ngModel)]="form.partsCost">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Statut</ion-label>
+          <ion-select [(ngModel)]="form.status">
+            <ion-select-option *ngFor="let status of statuses" [value]="status">
+              {{ status }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button expand="block" class="save-btn" (click)="saveRepair()">
+          Enregistrer
+        </ion-button>
+
+        <ion-button expand="block" fill="outline" color="medium" (click)="cancelEdit()">
+          Annuler
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngFor="let repair of repairs">
+      <ion-card-header>
+        <ion-card-title>
+          {{ repair.vehicle?.brand }}
+          {{ repair.vehicle?.model }}
+        </ion-card-title>
+
+        <ion-card-subtitle>
+          {{ repair.client?.fullName }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>
+          <strong>Diagnostic :</strong>
+          {{ repair.diagnosis || 'Non renseigné' }}
+        </p>
+
+        <p>
+          <strong>Travail :</strong>
+          {{ repair.workDescription || 'Non renseigné' }}
+        </p>
+
+        <p>
+          <strong>Pièces :</strong>
+          {{ repair.partsUsed || 'Aucune' }}
+        </p>
+
+        <div class="cost-box">
+          <span>Main-d’œuvre : {{ repair.laborCost || 0 }} $</span>
+          <span>Pièces : {{ repair.partsCost || 0 }} $</span>
+        </div>
+
+        <ion-badge [color]="getStatusColor(repair.status)">
+          {{ repair.status }}
+        </ion-badge>
+
+        <div class="actions">
+          <ion-button size="small" fill="outline" (click)="selectRepair(repair)">
+            Modifier
+          </ion-button>
+
+          <ion-button
+            size="small"
+            color="success"
+            *ngIf="repair.status !== 'READY'"
+            (click)="quickStatus(repair, 'READY')">
+            Prêt
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-text *ngIf="repairs.length === 0">
+      <p class="empty">Aucune réparation assignée.</p>
+    </ion-text>
+
+  </div>
+
+</ion-content>

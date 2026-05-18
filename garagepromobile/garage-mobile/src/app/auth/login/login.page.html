@@ -1,0 +1,50 @@
+<ion-content class="login-page" fullscreen>
+  <div class="login-wrapper">
+    <div class="brand">
+      <div class="logo">
+        <ion-icon name="construct-outline"></ion-icon>
+      </div>
+
+      <h1>GaragePro</h1>
+      <p>Suivi mécanique, rendez-vous et factures.</p>
+    </div>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Connexion</ion-card-title>
+        <ion-card-subtitle>Accédez à votre espace mobile</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="client@garage.com">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Mot de passe</ion-label>
+          <ion-input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="••••••••">
+          </ion-input>
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          class="login-btn"
+          [disabled]="loading"
+          (click)="login()">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Se connecter</span>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

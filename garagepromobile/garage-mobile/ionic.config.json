@@ -1,0 +1,7 @@
+{
+  "name": "garage-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

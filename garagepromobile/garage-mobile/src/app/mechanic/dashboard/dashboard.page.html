@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Espace mécanicien</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="hero">
+    <h1>Bonjour {{ currentUser?.fullName }}</h1>
+    <p>Résumé de vos réparations assignées.</p>
+  </div>
+
+  <ion-spinner *ngIf="loading" class="center"></ion-spinner>
+
+  <div *ngIf="!loading">
+
+    <div class="stats-grid">
+      <ion-card (click)="goToRepairs()">
+        <ion-card-content>
+          <ion-icon name="construct-outline"></ion-icon>
+          <strong>{{ repairs.length }}</strong>
+          <span>Total</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <ion-icon name="search-outline"></ion-icon>
+          <strong>{{ countByStatus('DIAGNOSIS') }}</strong>
+          <span>Diagnostic</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <ion-icon name="settings-outline"></ion-icon>
+          <strong>{{ countByStatus('REPAIRING') }}</strong>
+          <span>En cours</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          <strong>{{ countByStatus('READY') }}</strong>
+          <span>Prêts</span>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ion-card class="section-card">
+      <ion-card-header>
+        <ion-card-title>Réparations actives</ion-card-title>
+      </ion-card-header>
+
+      <ion-list *ngIf="getActiveRepairs().length > 0">
+        <ion-item *ngFor="let repair of getActiveRepairs().slice(0, 5)">
+          <ion-label>
+            <h2>
+              {{ repair.vehicle?.brand }}
+              {{ repair.vehicle?.model }}
+            </h2>
+
+            <p>{{ repair.client?.fullName }}</p>
+            <p>{{ repair.diagnosis || 'Diagnostic non renseigné' }}</p>
+          </ion-label>
+
+          <ion-badge color="warning">
+            {{ repair.status }}
+          </ion-badge>
+        </ion-item>
+      </ion-list>
+
+      <ion-card-content *ngIf="getActiveRepairs().length === 0">
+        Aucune réparation active.
+      </ion-card-content>
+    </ion-card>
+
+    <div class="quick-actions">
+      <ion-button expand="block" (click)="goToRepairs()">
+        <ion-icon name="construct-outline" slot="start"></ion-icon>
+        Voir mes réparations
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

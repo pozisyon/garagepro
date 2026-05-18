@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Factures</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading" class="center"></ion-spinner>
+
+  <ion-card *ngFor="let invoice of invoices">
+    <ion-card-header>
+      <ion-card-title>{{ invoice.invoiceNumber }}</ion-card-title>
+      <ion-card-subtitle>
+        Réparation #{{ invoice.repair?.id || 'N/A' }}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="line">
+        <span>Sous-total</span>
+        <strong>{{ invoice.subtotal | number:'1.2-2' }} $</strong>
+      </div>
+
+      <div class="line">
+        <span>Taxes</span>
+        <strong>{{ invoice.taxAmount | number:'1.2-2' }} $</strong>
+      </div>
+
+      <div class="line total">
+        <span>Total</span>
+        <strong>{{ invoice.total | number:'1.2-2' }} $</strong>
+      </div>
+
+      <ion-badge
+        [color]="invoice.status === 'PAID' ? 'success' : 'warning'">
+        {{ invoice.status }}
+      </ion-badge>
+
+      <ion-button expand="block" fill="outline" class="download-btn" (click)="downloadPdf(invoice)">
+        <ion-icon name="download-outline" slot="start"></ion-icon>
+        Télécharger PDF
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-text *ngIf="!loading && invoices.length === 0">
+    <p class="empty">Aucune facture disponible.</p>
+  </ion-text>
+</ion-content>
