@@ -69,6 +69,9 @@ public class SecurityConfig {
                 "http://localhost:4200",
                 "http://localhost:3000",
                 "http://localhost:8100",
+                "http://localhost:8101",
+                "capacitor://localhost",
+                "http://localhost",
                 "https://garagefrontend-lrfy.onrender.com"
         ));
 
